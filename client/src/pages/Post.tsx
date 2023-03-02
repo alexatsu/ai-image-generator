@@ -30,7 +30,11 @@ export default function Post() {
       }),
     }).then((res) => res.json());
   };
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    const updater = (prevForm: typeof form) => ({ ...prevForm, [name]: value });
+    setForm(updater);
+  };
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
     setForm({ ...form, prompt: randomPrompt });

@@ -10,3 +10,7 @@ app.use(express.json({ limit: '50mb' }));
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
 })
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+})

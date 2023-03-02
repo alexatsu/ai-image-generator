@@ -25,6 +25,7 @@ export default function FormField({
         )}
       </div>
       <input
+        name={name}
         type={type}
         id={name}
         placeholder={placeholder}
