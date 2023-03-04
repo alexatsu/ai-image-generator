@@ -6,13 +6,37 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState(null);
   const [search, setSearch] = useState("");
-  
+
   const RenderCards = ({ data, title }) => {
     if (data?.length > 0) {
       return data.map((post) => <Card key={post._id} {...post} />);
     }
     return <h2 className="mt-5 font-bold text-[#6449ff] text-xl uppercase">{title}</h2>;
   };
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:8050/api/v1/post", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data.data.reverse());
+          console.log("fired", data);
+        }
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
+
   return (
     <Container>
       <section className="max-w-7xl mx-auto">
@@ -39,9 +63,9 @@ export default function Home() {
               )}
               <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
                 {search ? (
-                  <RenderCards data={[]} title="No results found" />
+                  <RenderCards data={posts} title="No results found" />
                 ) : (
-                  <RenderCards data={[]} title="No posts found" />
+                  <RenderCards data={posts} title="No posts found" />
                 )}
               </div>
             </>

@@ -16,19 +16,24 @@ export default function Post() {
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const { name, prompt, photo } = form;
-    const { data } = await fetch(`/api/post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        prompt,
-        photo,
-      }),
-    }).then((res) => res.json());
+    if (form.photo && form.prompt) {
+      setLoading(true);
+      await fetch("http://localhost:8050/api/v1/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      })
+        .then((res) => {
+          res.json();
+          navigate("/");
+        })
+        .catch((err) => alert(err))
+        .finally(() => setLoading(false));
+    } else {
+      alert("Please enter a name and prompt");
+    }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -40,25 +45,25 @@ export default function Post() {
     setForm({ ...form, prompt: randomPrompt });
   };
   const generateImage = async () => {
-    setGenerating(true);
-    const { name, prompt, photo } = form;
-    const { data } = await fetch(`/api/post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        prompt,
-        photo,
-      }),
-    }).then((res) => res.json());
-    setForm({
-      name: "",
-      prompt: "",
-      photo: "",
-    });
-    setGenerating(false);
+    if (form.prompt) {
+      try {
+        setGenerating(true);
+        const response = await fetch(`http://localhost:8050/api/v1/dalle`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: form.prompt }),
+        });
+        const data = await response.json();
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+        setGenerating(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("Please enter a prompt");
+    }
   };
 
   return (
