@@ -6,10 +6,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState(null);
   const [search, setSearch] = useState("");
-
-  const RenderCards = ({ data, title }) => {
+  type CardsProps<T> = {
+    data: T | string[];
+    title: string;
+  };
+  const RenderCards = ({ data, title }: CardsProps<any>) => {
     if (data?.length > 0) {
-      return data.map((post) => <Card key={post._id} {...post} />);
+      return data.map((post: any) => <Card key={post._id} {...post} />);
     }
     return <h2 className="mt-5 font-bold text-[#6449ff] text-xl uppercase">{title}</h2>;
   };
@@ -63,9 +66,9 @@ export default function Home() {
               )}
               <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
                 {search ? (
-                  <RenderCards data={posts} title="No results found" />
+                  <RenderCards data={posts!} title="No results found" />
                 ) : (
-                  <RenderCards data={posts} title="No posts found" />
+                  <RenderCards data={posts!} title="No posts found" />
                 )}
               </div>
             </>

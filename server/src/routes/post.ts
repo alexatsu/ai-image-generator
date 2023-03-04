@@ -2,6 +2,7 @@ import express from "express";
 import * as dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 import Post from "../database/models/post";
+import { Types } from "mongoose";
 
 const router = express.Router();
 export default router;
@@ -24,11 +25,11 @@ router.route("/").get(async (req, res) => {
 
 router.route("/").post(async (req, res) => {
   try {
-    const { name, prompt, photo } = req.body;
+    const { name, prompt, photo } = req.body as { name: string; prompt: string; photo: string };
     const photoUrl = await cloudinary.uploader.upload(photo);
     const newPost = await Post.create({ name, prompt, photo: photoUrl });
     res.status(200).json({ success: true, data: newPost });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Unable to create a post, please try again' });
+    res.status(500).json({ success: false, message: "Unable to create a post, please try again" });
   }
 });

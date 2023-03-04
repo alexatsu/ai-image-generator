@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { preview } from "../assets";
 import { FormField, Spinner } from "../components";
 import { getRandomPrompt } from "../utils";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function Post() {
   const navigate = useNavigate();
@@ -14,8 +14,9 @@ export default function Post() {
   });
   const [generating, setGenerating] = useState(false);
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  type SubmitProps = (event: FormEvent<HTMLFormElement>) => Promise<void>;
+  const handleSubmit: SubmitProps = async (event) => {
+    event.preventDefault();
     if (form.photo && form.prompt) {
       setLoading(true);
       await fetch("http://localhost:8050/api/v1/post", {

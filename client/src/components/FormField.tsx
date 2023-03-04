@@ -7,6 +7,15 @@ export default function FormField({
   isSurpriseMe,
   handleSurpriseMe,
   placeholder,
+}: {
+  label?: string;
+  type?: string;
+  name?: string;
+  value?: string;
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isSurpriseMe?: boolean;
+  handleSurpriseMe?: () => void;
+  placeholder?: string;
 }) {
   return (
     <div>

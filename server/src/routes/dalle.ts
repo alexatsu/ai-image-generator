@@ -4,16 +4,12 @@ import { Configuration, OpenAIApi } from "openai";
 
 dotenv.config();
 const router = express.Router();
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
 const openai = new OpenAIApi(configuration);
-router.route("/").get(async (req, res) => {
-  res.send("Hello from Dalle!");
-});
+
 router.route("/").post(async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { prompt } = req.body as { prompt: string };
     const aiResponse = await openai.createImage({
       prompt,
       n: 1,
