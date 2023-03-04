@@ -5,6 +5,7 @@ import { FormField, Spinner } from "../components";
 import { getRandomPrompt } from "../utils";
 import { FormEvent, useState } from "react";
 
+type SubmitProps = (event: FormEvent<HTMLFormElement>) => Promise<void>;
 export default function Post() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -14,7 +15,8 @@ export default function Post() {
   });
   const [generating, setGenerating] = useState(false);
   const [loading, setLoading] = useState(false);
-  type SubmitProps = (event: FormEvent<HTMLFormElement>) => Promise<void>;
+
+
   const handleSubmit: SubmitProps = async (event) => {
     event.preventDefault();
     if (form.photo && form.prompt) {
@@ -71,8 +73,8 @@ export default function Post() {
     <Container>
       <section className="max-w-7xl mx-auto">
         <div>
-          <h1 className="font-extrabold text-[#222328] text-[32px]">Create</h1>
-          <p className="mt-2 text-[#666e75] text-[16px]">
+          <h1 className="font-extrabold text-[#f1f3fd] text-[32px]">Create</h1>
+          <p className="mt-2 text-[#c4c6d3] text-[16px]">
             Create imaginative and stunning images through AI and share them with your friends.
           </p>
         </div>
@@ -119,7 +121,7 @@ export default function Post() {
           </div>
           <div className="mt-5 flex gap-5">
             <button
-              className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              className="text-[#dafffc] bg-zinc-800 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
               type="button"
               onClick={generateImage}
             >
@@ -127,11 +129,11 @@ export default function Post() {
             </button>
           </div>
           <div className="mt-10">
-            <p className="mt-2 text-[#666e75] text-[14px]">
+            <p className="mt-2 text-[#bbbecd] text-[14px]">
               Once you got image, you can share it with others!
             </p>
             <button
-              className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              className="mt-3 text-black bg-[#dafffc] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
               type="submit"
             >
               {loading ? "Sharing..." : "Share with others"}
