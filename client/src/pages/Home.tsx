@@ -91,7 +91,7 @@ export default function Home() {
                 {search ? (
                   <RenderCards data={posts!} title="No results found" />
                 ) : (
-                  <RenderCards data={posts!} title="No posts found" />
+                  <RenderCards data={posts!} title="No images" />
                 )}
               </div>
             </>
